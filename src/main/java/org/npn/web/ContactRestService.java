@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin("*")
 public class ContactRestService {
 	
 	@Autowired
@@ -61,10 +63,10 @@ public class ContactRestService {
 	@GetMapping("/findContacts")
 	public Page<Contact>find(
 			@RequestParam(name="kw",defaultValue="")String kw,
-			@RequestParam(name="page",defaultValue="0")int page,
-			@RequestParam(name="size",defaultValue="2")int size){
+			@RequestParam(name="size",defaultValue="0")int size,
+			@RequestParam(name="page",defaultValue="5")int page){
 		
-		return contactRepository.findByKeyword("%"+kw+"%", new PageRequest(page,size));
+		return contactRepository.findByKeyword("%"+kw+"%", new PageRequest(size,page));
 	}
 		
 	
